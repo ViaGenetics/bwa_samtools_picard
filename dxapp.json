@@ -1,7 +1,7 @@
 {
-  "name": "bwa_samtools",
-  "title": "Alignment - BWA MEM, samtools view, samtools sort, samtools rmdup",
-  "summary": "Aligns short sequence reads to a reference genome with BWA MEM and sorts and dedups BAM files with samtools",
+  "name": "bwa_samtools_picard",
+  "title": "Alignment - BWA MEM, samtools view, samtools sort, Picard MarkDuplicates",
+  "summary": "Aligns short sequence reads to a reference genome with BWA MEM, sorts BAM files with samtools, and dedups BAM files with Picard",
   "dxapi": "1.0.0",
   "version": "0.0.1",
   "categories": [
@@ -133,8 +133,8 @@
         "optional": true
       },
       {
-        "name": "advanced_samtools_markdups_options",
-        "label": "Advanced samtools command line options (for samtools rmdup)",
+        "name": "advanced_picard_markdups_options",
+        "label": "Advanced Picard command line options (for Picard MarkDuplicates)",
         "class": "string",
         "optional": true
       },
@@ -172,7 +172,7 @@
   ],
   "runSpec": {
     "interpreter": "python2.7",
-    "file": "src/bwa_samtools.py",
+    "file": "src/bwa_samtools_picard.py",
     "distribution": "Ubuntu",
     "release": "14.04",
     "execDepends": [

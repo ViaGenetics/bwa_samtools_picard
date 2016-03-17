@@ -1,7 +1,7 @@
 <!-- dx-header -->
-# Alignment - BWA MEM, samtools view, samtools sort, samtools rmdup (DNAnexus Platform App)
+# Alignment - BWA MEM, samtools view, samtools sort, Picard MarkDuplicates (DNAnexus Platform App)
 
-Aligns short sequence reads to a reference genome with BWA MEM and sorts and dedups BAM files with samtools
+Aligns short sequence reads to a reference genome with BWA MEM, sorts BAM files with samtools, and dedups BAM files with Picard
 
 This is the source code for an app that runs on the DNAnexus Platform.
 For more information about how to run or modify it, see
