@@ -1,0 +1,212 @@
+{
+  "name": "bwa_samtools",
+  "title": "Alignment - BWA MEM, samtools view, samtools sort, samtools rmdup",
+  "summary": "Aligns short sequence reads to a reference genome with BWA MEM and sorts and dedups BAM files with samtools",
+  "dxapi": "1.0.0",
+  "version": "0.0.1",
+  "categories": [
+    "Read Mapping"
+  ],
+  "inputSpec": [
+      {
+        "name": "reads_1",
+        "label": "Reads (can accept uncompressed, bz2, or gz files)",
+        "class": "array:file",
+        "patterns": ["*.txt.gz", "*.fq.gz", "*.fastq.gz","*.txt", "*.fq", "*.fastq","*.txt.bz2", "*.fq.bz2", "*.fastq.bz2"],
+        "optional": false
+      },
+      {
+        "name": "reads_2",
+        "label": "Right mates reads (can accept uncompressed, bz2, or gz files)",
+        "class": "array:file",
+        "patterns": ["*.txt.gz", "*.fq.gz", "*.fastq.gz","*.txt", "*.fq", "*.fastq","*.txt.bz2", "*.fq.bz2", "*.fastq.bz2"],
+        "optional": true
+      },
+      {
+        "name": "reference",
+        "label": "Reference genome (gzipped)",
+        "class": "file",
+        "patterns": ["*.fa.gz", "*.fasta.gz"],
+        "optional": false,
+        "suggestions": [
+          {
+            "name": "GRCh37 - hs37d5 (1000 Genomes Phase II)",
+            "value": {
+              "$dnanexus_link": {
+                "project": "project-BY1v2Xj0VKgFyYv3zk4Bq125",
+                "id": "file-B6ZY7VG2J35Vfvpkj8y0KZ01"
+              }
+            }
+          },
+          {
+            "name": "ucsc - hg19",
+            "value": {
+              "$dnanexus_link": {
+                "project": "project-BY1v2Xj0VKgFyYv3zk4Bq125",
+                "id": "file-BYG23G80VKg6gz64Y5xQyb2x"
+              }
+            }
+          },
+          {
+            "name": "DNAnexus Reference Genomes",
+            "project": "project-BQpp3Y804Y0xbyG4GJPQ01xv",
+            "path": "/"
+          }
+        ]
+      },
+      {
+        "name": "reference_index",
+        "label": "BWA reference genome index (must be a gzipped tar archive)",
+        "class": "file",
+        "patterns": ["*.bwa-index.tar.gz"],
+        "optional": false,
+        "suggestions": [
+          {
+            "name": "GRCh37 - hs37d5 (1000 Genomes Phase II)",
+            "value": {
+              "$dnanexus_link": {
+                "project": "project-BY1v2Xj0VKgFyYv3zk4Bq125",
+                "id": "file-B6ZY4942J35xX095VZyQBk0v"
+              }
+            }
+          },
+          {
+            "name": "ucsc - hg19",
+            "value": {
+              "$dnanexus_link": {
+                "project": "project-BY1v2Xj0VKgFyYv3zk4Bq125",
+                "id": "file-BYGK0500VKg26Q75q9gq3XxJ"
+              }
+            }
+          },
+          {
+            "name": "DNAnexus Reference Genomes",
+            "project": "project-BQpp3Y804Y0xbyG4GJPQ01xv",
+            "path": "/"
+          }
+        ]
+      },
+      {
+        "name": "read_group_sample",
+        "label": "Read group sample (RG SM tag)",
+        "class": "string",
+        "optional": false
+      },
+      {
+        "name": "read_group_platform",
+        "label": "Read group platform (RG PL tag)",
+        "class": "string",
+        "optional": true,
+        "default": "Illumina"
+      },
+      {
+        "name": "read_group_platform_unit",
+        "label": "Read group platform unit (RG PU tag)",
+        "class": "string",
+        "optional": true,
+        "default": "FlowcellId"
+      },
+      {
+        "name": "read_group_library",
+        "label": "Read group library (RG LB tag)",
+        "class": "string",
+        "optional": true,
+        "default": "LibraryId"
+      },
+      {
+        "name": "advanced_bwa_options",
+        "label": "Advanced BWA command line options (for BWA mem)",
+        "class": "string",
+        "optional": true,
+        "default": "-M"
+      },
+      {
+        "name": "advanced_samtools_view_options",
+        "label": "Advanced samtools command line options (for samtools view)",
+        "class": "string",
+        "optional": true
+      },
+      {
+        "name": "advanced_samtools_sort_options",
+        "label": "Advanced samtools command line options (for samtools sort)",
+        "class": "string",
+        "optional": true
+      },
+      {
+        "name": "advanced_samtools_markdups_options",
+        "label": "Advanced samtools command line options (for samtools rmdup)",
+        "class": "string",
+        "optional": true
+      },
+      {
+        "name": "advanced_samtools_flagstat_options",
+        "label": "Advanced samtools command line options (for samtools flagstat)",
+        "class": "string",
+        "optional": true
+      },
+      {
+        "name": "loglevel",
+        "label": "Logging Level",
+        "class": "string",
+        "optional": true,
+        "default": "INFO",
+        "choices": ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]
+      }
+  ],
+  "outputSpec": [
+    {
+      "name": "output_markdups_bams",
+      "label": "sorted and dedupped BAM file(s)",
+      "class": "array:file"
+    },
+    {
+      "name": "output_cram_file_archive",
+      "label": "CRAM files for storage",
+      "class": "array:file"
+    },
+    {
+      "name": "download_quality_metrics",
+      "label": "Quality Metrics files",
+      "class": "file"
+    }
+  ],
+  "runSpec": {
+    "interpreter": "python2.7",
+    "file": "src/bwa_samtools.py",
+    "distribution": "Ubuntu",
+    "release": "14.04",
+    "execDepends": [
+      {
+        "name": "dx_applet_utilities",
+        "package_manager": "git",
+        "url": "https://github.com/ViaGenetics/dx_applet_utilities.git",
+        "tag": "master",
+        "destdir": "~/"
+     }
+   ],
+   "systemRequirements":{
+     "main": {
+       "instanceType": "mem1_ssd1_x8"
+     }
+   },
+   "executionPolicy": {
+     "restartOn": {
+       "ExecutionError": 1,
+       "AppInternalError": 1
+     },
+     "maxRestarts": 2
+   },
+   "timeoutPolicy": {
+     "main": {
+       "hours": 22
+     }
+   }
+  },
+  "access": {
+    "network": ["*"]
+  },
+  "developers": [
+    "MGonz2015"
+  ],
+  "authorizedUsers": []
+}
