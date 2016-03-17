@@ -177,6 +177,9 @@
     "release": "14.04",
     "execDepends": [
       {
+        "name": "openjdk-8-jre-headless"
+      },
+      {
         "name": "dx_applet_utilities",
         "package_manager": "git",
         "url": "https://github.com/ViaGenetics/dx_applet_utilities.git",
