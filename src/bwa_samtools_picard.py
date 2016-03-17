@@ -238,7 +238,7 @@ def main(reads_1, reference, reference_index, read_group_sample, loglevel,
     # Mark duplicates in BAM file
 
     markdup_bam = "out/output_markdups_bams/{0}.markdups.bam".format(read_group_sample)
-    dups_metrics_file = "out/download_quality_metrics/{0}.markdups.metrics.txt".format(read_group_sample)
+    dups_metrics_file = "{0}.markdups.metrics.txt".format(read_group_sample)
     picard_markdup_cmd = 'java -Xmx{0}m -jar /opt/jar/picard.jar MarkDuplicates {1} I={2} O={3} M={4}'.format(
         max_ram, advanced_picard_markdups_options, sorted_bam,
         markdup_bam, dups_metrics_file)
